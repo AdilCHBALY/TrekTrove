@@ -6,7 +6,9 @@ const Logo = () => {
     const router = useRouter()
 
   return (
-    <div className="hidden md:block cursor-pointer font-semibold text-3xl text-[#003c71]">
+    <div
+    onClick={()=>router.push('/')}
+    className="hidden md:block cursor-pointer font-semibold text-2xl text-[#003c71]">
         TrekTrove
     </div>
   )

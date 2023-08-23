@@ -8,6 +8,7 @@ import useRegisterModal from '../hooks/useRegisterModal'
 import useLoginModal from '../hooks/useLoginModal'
 import { User } from '@prisma/client'
 import { signOut } from 'next-auth/react'
+import useRentModal from '../hooks/useRentModal'
 
 
 
@@ -25,11 +26,27 @@ const UserMenu : React.FC<UserMenuProps>= ({
     },[])
     const RegisterModal = useRegisterModal()
     const LoginModal = useLoginModal()
+    const RentModal= useRentModal()
+
+
+    const onRent = useCallback(()=>{
+        if(!currentUser){
+            return LoginModal.onOpen()
+        }
+
+        //Open Rent Modal 
+
+
+        RentModal.onOpen()
+        
+    },[LoginModal, RentModal, currentUser])
+
+
   return (
     <div className="relative">
         <div className="flex flex-row items-center gap-3">
             <div 
-                onClick={()=>{}}
+                onClick={onRent}
                 className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
             >
                 Add Your Home
@@ -39,7 +56,7 @@ const UserMenu : React.FC<UserMenuProps>= ({
             >
                 <AiOutlineMenu />
                 <div className='hidden md:block'>
-                    <Avatar />
+                    <Avatar  src={currentUser?.image} />
                 </div>
             </div>
         </div>
@@ -67,8 +84,8 @@ const UserMenu : React.FC<UserMenuProps>= ({
                             onClick={RegisterModal.onOpen}
                         />
                         <MenuItem 
-                            label='Home'
-                            onClick={RegisterModal.onOpen}
+                            label='Add Your Home'
+                            onClick={RentModal.onOpen}
                         />
                         <MenuItem 
                             label='Logout'

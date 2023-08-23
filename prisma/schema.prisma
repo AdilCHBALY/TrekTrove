@@ -24,6 +24,33 @@ model User{
   accounts Account[]
   listings Listing[]
   reservations Reservation[]
+  sessions Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String?  @db.ObjectId
+  sessionToken String   @db.String @map("session_token") @unique
+  accessToken  String?  @db.String @map("access_token")
+  expires      DateTime
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model VerificationRequest {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
 }
 
 model Account{
@@ -31,7 +58,7 @@ model Account{
   userId String @db.ObjectId
   type String 
   provider String
-  providerAccoutId String
+  providerAccountId String @map("provider_account_id")
   refresh_token String? @db.String
   access_token String? @db.String
   expires_at Int?
@@ -39,8 +66,11 @@ model Account{
   scope String?
   id_token String? @db.String
   session_state String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  @@unique([providerAccoutId,provider])
+  @@unique([provider,providerAccountId])
+  @@map("accounts")
 }
 
 model Listing{

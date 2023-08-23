@@ -60,6 +60,12 @@ const LoginModal = () => {
         })
     }
 
+
+    const toggle = useCallback(()=>{
+        LoginModal.onClose()
+        RegisterModal.onOpen()
+    },[LoginModal, RegisterModal])
+
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading
@@ -91,13 +97,13 @@ const LoginModal = () => {
                 outline
                 label='Continue With Google'
                 icon={FcGoogle}
-                onClick={()=>{}}
+                onClick={()=>signIn('google')}
             />
             <Button
                 outline
                 label='Continue With Github'
                 icon={AiFillGithub}
-                onClick={()=>{}}
+                onClick={()=>signIn('github')}
             />
             <div className='text-neutral-500 text-center mt-4 font-light'>
                 <div className='flex justify-center flex-row items-center gap-2'>
@@ -105,7 +111,7 @@ const LoginModal = () => {
                         Dont have an Account ?
                     </div>
                     <div 
-                    onClick={LoginModal.onClose}
+                    onClick={toggle}
                     className='text-neutral-800 cursor-pointer hover:underline'>
                         Sign up
                     </div>
