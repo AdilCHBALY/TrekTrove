@@ -9,6 +9,7 @@ import useLoginModal from '../hooks/useLoginModal'
 import { User } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import useRentModal from '../hooks/useRentModal'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -28,6 +29,8 @@ const UserMenu : React.FC<UserMenuProps>= ({
     const LoginModal = useLoginModal()
     const RentModal= useRentModal()
 
+
+    const router = useRouter()
 
     const onRent = useCallback(()=>{
         if(!currentUser){
@@ -69,15 +72,15 @@ const UserMenu : React.FC<UserMenuProps>= ({
                             <>
                         <MenuItem 
                             label='Trips'
-                            onClick={LoginModal.onOpen}
+                            onClick={()=>router.push('/trips')}
                         />
                         <MenuItem 
                             label='Favorites'
-                            onClick={RegisterModal.onOpen}
+                            onClick={()=>router.push('/favorites')}
                         />
                         <MenuItem 
                             label='Reservations'
-                            onClick={RegisterModal.onOpen}
+                            onClick={()=>router.push('/reservations')}
                         />
                         <MenuItem 
                             label='Properties'

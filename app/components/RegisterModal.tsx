@@ -44,6 +44,7 @@ const RegisterModal = () => {
         setIsLoading(true)
         axios.post("/api/register",data).then(()=>{
             RegisterModal.onClose()
+            LoginModal.onOpen()
         }).catch((err)=>{
             toast.error("Something went wrong")
         })
@@ -125,7 +126,9 @@ const RegisterModal = () => {
         actionLabel='Continue'
         onClose={RegisterModal.onClose}
         onSubmit={handleSubmit(onSubmit)}
+        //@ts-ignore
         body={bodyContent}
+        //@ts-ignore
         footer={FooterContent}
     />
   )

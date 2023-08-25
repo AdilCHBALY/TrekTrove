@@ -128,7 +128,9 @@ const LoginModal = () => {
         actionLabel='Continue'
         onClose={LoginModal.onClose}
         onSubmit={handleSubmit(onSubmit)}
+        //@ts-ignore
         body={bodyContent}
+        //@ts-ignore
         footer={FooterContent}
     />
   )

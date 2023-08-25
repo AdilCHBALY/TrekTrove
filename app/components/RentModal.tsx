@@ -65,6 +65,7 @@ const RentModal = () => {
 
     const Map = useMemo(()=>dynamic(()=> import('./Map') , {
         ssr: false,
+        
     }),[locationName])
 
     const setCustomValue = (id:string,value:any)=>{
@@ -283,6 +284,7 @@ const RentModal = () => {
             secondaryLabel={secondaryActionLabel}
             onClose={rentModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
+            //@ts-ignore
             body={bodyContent}
             isOpen={rentModal.isOpen}
         />

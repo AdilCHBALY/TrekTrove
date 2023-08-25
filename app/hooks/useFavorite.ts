@@ -23,7 +23,6 @@ const useFavorite = ({
 
     const hasFavorited=useMemo(()=>{
         const list = currentUser?.favoriteIds || []
-
         return list.includes(listingId)
     },[currentUser, listingId])
 
@@ -38,17 +37,25 @@ const useFavorite = ({
         try{
             let req
 
-
             if(hasFavorited){
                 req=()=> axios.delete(`/api/favorites/${listingId}`)
             }else{
                 req = ()=>axios.post(`/api/favorites/${listingId}`)
             }
 
-            await req
+            await req()
 
             router.refresh()
-            toast.success('Success')
+            let message 
+
+            if(hasFavorited){
+                message = 'Listing Unliked'
+            }else{
+                message = 'Listing Liked'
+            }
+
+
+            toast.success(message)
         }catch(e){
             toast.error("Something went wrong")
         }

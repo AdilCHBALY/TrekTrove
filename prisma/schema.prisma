@@ -10,32 +10,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String?
-  email String? @unique
-  emailVerified DateTime?
-  image String?
+model User {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?       @unique
+  emailVerified  DateTime?
+  image          String?
   hashedPassword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  favoriteIds String[] @db.ObjectId
-  accounts Account[]
-  listings Listing[]
-  reservations Reservation[]
-  sessions Session[]
-
-  @@map("users")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  favoriteIds    String[]      @db.ObjectId
+  accounts       Account[]
+  listings       Listing[]
+  reservations   Reservation[]
+  sessions       Session[]
 }
 
 model Session {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   userId       String?  @db.ObjectId
-  sessionToken String   @db.String @map("session_token") @unique
-  accessToken  String?  @db.String @map("access_token")
+  sessionToken String   @unique @map("session_token") @db.String
+  accessToken  String?  @map("access_token") @db.String
   expires      DateTime
-  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -43,7 +40,7 @@ model Session {
 }
 
 model VerificationRequest {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime
@@ -53,52 +50,52 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
-model Account{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  type String 
-  provider String
-  providerAccountId String @map("provider_account_id")
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.String
-  session_state String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  @@unique([provider,providerAccountId])
-  @@map("accounts")
+model Account {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?  @db.String
+  access_token      String?  @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.String
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
-model Listing{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  imageSrc String
-  created_at DateTime @default(now())
-  category String
-  roomCount Int
+model Listing {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  imageSrc      String
+  created_at    DateTime      @default(now())
+  category      String
+  roomCount     Int
   bathroomCount Int
-  guestCount Int
+  guestCount    Int
   locationValue String
-  userId String @db.ObjectId
-  price Int
-  reservations Reservation[]
-  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  userId        String        @db.ObjectId
+  price         Int
+  reservations  Reservation[]
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Reservation{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  listingId String @db.ObjectId
-  startDate DateTime
-  endDate DateTime
+model Reservation {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  listingId  String   @db.ObjectId
+  startDate  DateTime
+  endDate    DateTime
   totalPrice Int
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
-  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
-  listing Listing @relation(fields: [listingId],references: [id],onDelete:Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
