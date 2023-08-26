@@ -2,6 +2,7 @@ import EmptyState from "../components/EmptyState"
 
 import getCurrentUser from "../actions/getCurrentUser"
 import getFavorite from "../actions/getFavorite"
+import FavoritesListing from "../components/FavoritesListing"
 
 
 const page = async () => {
@@ -30,7 +31,11 @@ const page = async () => {
 
 
   return (
-    <div>page</div>
+    <FavoritesListing 
+        //@ts-ignore
+        listings={FavoriteListing}
+        currentUser={currentUser}
+    />
   )
 }
 

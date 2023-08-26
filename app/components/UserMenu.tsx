@@ -84,7 +84,7 @@ const UserMenu : React.FC<UserMenuProps>= ({
                         />
                         <MenuItem 
                             label='Properties'
-                            onClick={RegisterModal.onOpen}
+                            onClick={()=>router.push('/properties')}
                         />
                         <MenuItem 
                             label='Add Your Home'
