@@ -1,4 +1,4 @@
-"use cleint"
+"use client"
 
 interface HeadingProps{
     title:string,
